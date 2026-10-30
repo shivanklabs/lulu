@@ -1,0 +1,42 @@
+name: MediBridge CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install Root Tooling
+        run: npm install --save-dev concurrently@^9.1.2
+
+      - name: Install Backend Dependencies
+        run: npm --prefix backend install
+
+      - name: Install Frontend Dependencies
+        run: npm --prefix frontend install
+
+      - name: Run Linters
+        run: npm run lint
+
+      - name: Run Typechecks
+        run: |
+          npm --prefix backend run typecheck
+          npm --prefix frontend run typecheck
+
+      - name: Run Unit & Integration Tests
+        run: npm test
+
+      - name: Run Production Builds
+        run: npm run build

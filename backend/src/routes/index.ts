@@ -1,0 +1,52 @@
+import { Router } from 'express';
+import { healthRouter } from './health.routes';
+import { authRouter } from '../modules/auth/auth.routes';
+import { patientRouter } from '../modules/patients/patient.routes';
+import { doctorRouter } from '../modules/doctors/doctor.routes';
+import { consentRouter } from '../modules/consent/consent.routes';
+import { medicalRecordRouter } from '../modules/medical-records/medical-record.routes';
+import { appointmentRouter } from '../modules/appointments/appointment.routes';
+import { prescriptionRouter } from '../modules/prescriptions/prescription.routes';
+import { notificationRouter } from '../modules/notifications/notification.routes';
+import { medicineReminderRouter } from '../modules/medicine-reminders/medicine-reminder.routes';
+import { adminRouter } from '../modules/admin/admin.routes';
+import { chatbotRoutes } from '../modules/chatbot/chatbot.routes';
+import { aiAgentRoutes } from '../modules/ai-agent/ai-agent.routes';
+import { aiVisionScreeningRouter } from '../modules/ai-vision-screening/skin-disease-photo.routes';
+import { incognitoRouter } from '../modules/incognito-consultations/incognito-consult.routes';
+import { ambulanceSosRouter } from '../modules/ambulance-sos/ambulance-sos.routes';
+import { hospitalDashboardRouter } from '../modules/hospitals/hospital-dashboard.routes';
+import { donorBankRouter } from '../modules/donor-organ-blood-bank/donor-matching.routes';
+import { aiUnifiedRoutes } from '../modules/ai/ai.routes';
+import { patientDashboardRouter } from '../modules/patients/patient-dashboard.routes';
+import { doctorDashboardRouter } from '../modules/doctors/doctor-dashboard.routes';
+import { hospitalAdminRouter } from '../modules/hospitals/hospital-admin.routes';
+import { catalogRouter } from '../modules/appointments/catalog.routes';
+
+export const apiRouter = Router();
+
+apiRouter.use('/', healthRouter);
+apiRouter.use('/ai', aiUnifiedRoutes);
+apiRouter.use('/auth', authRouter);
+apiRouter.use('/patients', patientRouter);
+apiRouter.use('/doctors', doctorRouter);
+apiRouter.use('/hospitals', hospitalDashboardRouter);
+apiRouter.use('/donor-bank', donorBankRouter);
+apiRouter.use('/consent', consentRouter);
+apiRouter.use('/medical-records', medicalRecordRouter);
+apiRouter.use('/appointments', appointmentRouter);
+apiRouter.use('/prescriptions', prescriptionRouter);
+apiRouter.use('/notifications', notificationRouter);
+apiRouter.use('/medicine-reminders', medicineReminderRouter);
+apiRouter.use('/admin', adminRouter);
+apiRouter.use('/chatbot', chatbotRoutes);
+apiRouter.use('/ai-agent', aiAgentRoutes);
+apiRouter.use('/ai-vision', aiVisionScreeningRouter);
+apiRouter.use('/incognito-consultations', incognitoRouter);
+apiRouter.use('/ambulance-sos', ambulanceSosRouter);
+
+// Role dashboards (each router enforces its own role + ownership scope server-side)
+apiRouter.use('/patient', patientDashboardRouter);
+apiRouter.use('/doctor', doctorDashboardRouter);
+apiRouter.use('/hospital', hospitalAdminRouter);
+apiRouter.use('/catalog', catalogRouter);
